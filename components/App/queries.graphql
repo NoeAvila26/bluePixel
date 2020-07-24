@@ -1,0 +1,89 @@
+mutation logout {
+    logout
+}
+
+query getAgent {
+    agent {
+        id
+        isMobile
+        isTablet
+        isDesktop
+        remoteSession {
+            id
+            remoteAddress {
+                id
+                type
+            }
+            isDst
+        }
+        session {
+            id
+            user {
+                id
+                type {
+                    id
+                    name
+                }
+                firstName
+                lastName
+                fullName
+                email
+                phone
+                verified
+                profileImage {
+                    id
+                }
+            }
+        }
+        timezone {
+            id
+            name
+            gmtOffset
+        }
+    }
+}
+
+subscription loggedIn {
+    loggedIn {
+        id
+        user {
+            id
+            type {
+                id
+                name
+            }
+            firstName
+            lastName
+            fullName
+            email
+            phone
+            verified
+            profileImage {
+                id
+            }
+        }
+    }
+}
+
+subscription loggedOut {
+    loggedOut
+}
+
+subscription updatedUser {
+    updatedUser {
+        id
+        type {
+            id
+            name
+        }
+        firstName
+        lastName
+        fullName
+        email
+        phone
+        verified
+        profileImage {
+            id
+        }
+    }
+}

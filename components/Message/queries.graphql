@@ -1,0 +1,354 @@
+query getConversation($id: ID!) {
+    userConversation(id: $id) {
+        conversation {
+            id
+            name
+            users {
+                id
+                firstName
+                lastName
+                fullName
+                profileImage {
+                    id
+                }
+            }
+            type {
+                id
+                name
+            }
+            lastMessage {
+                id
+                content
+                sender {
+                    id
+                    fullName
+                    profileImage {
+                        id
+                    }
+                }
+                file {
+                    id
+                }
+            }
+            updatedAt
+        }
+        unreadMessages
+    }
+}
+
+query getConversations($pag: Int = 0, $query: String = "") {
+    userConversations(pag: $pag, filter: {
+        query: $query
+    }) {
+        totalCount
+        hasMore
+        pag
+        edges {
+            node {
+                conversation {
+                    id
+                    name
+                    users {
+                        id
+                        firstName
+                        lastName
+                        fullName
+                        profileImage {
+                            id
+                        }
+                    }
+                    type {
+                        id
+                        name
+                    }
+                    lastMessage {
+                        id
+                        content
+                        sender {
+                            id
+                            fullName
+                            profileImage {
+                                id
+                            }
+                        }
+                        file {
+                            id
+                        }
+                    }
+                    updatedAt
+                }
+                unreadMessages
+            }
+        }
+    }
+}
+
+query getMessages($conversation: ID!, $query: String = "", $pag: Int = 0) {
+    messages(pag: $pag, filter: {
+        query: $query,
+        conversation: $conversation
+    }) {
+        hasMore
+        pag
+        totalCount
+        edges {
+            node {
+                id
+                content
+                sentAt
+                receivedAt
+                seenAt
+                sender {
+                    id
+                    fullName
+                    profileImage {
+                        id
+                    }
+                }
+                file {
+                    id
+                    name
+                    type {
+                        id
+                        name
+                        class {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+mutation sendMessage($content: String!, $conversation: ID!, $file: ID = null) {
+    sendMessage(input: {
+        content: $content,
+        conversation: $conversation,
+        file: $file
+    }) {
+        id
+        content
+        sentAt
+        receivedAt
+        seenAt
+        sender {
+            id
+            fullName
+            profileImage {
+                id
+            }
+        }
+        file {
+            id
+            name
+            type {
+                id
+                name
+                class {
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
+
+mutation markAsReceived($id: ID!) {
+    markAsReceived(id: $id)
+}
+
+mutation markAsSeen($id: ID!) {
+    markAsSeen(id: $id)
+}
+
+mutation deleteMessage($id: ID!) {
+    deleteMessage(id: $id)
+}
+
+subscription createdConversation {
+    createdConversation {
+        id
+        type {
+            id
+            name
+        }
+        withUser {
+            id
+            fullName
+            profileImage {
+                id
+            }
+        }
+        withGroup {
+            id
+            name
+        }
+        unreadMessages
+        lastMessage {
+            id
+            content
+            sentAt
+            receivedAt
+            seenAt
+            sender {
+                id
+                fullName
+                profileImage {
+                    id
+                }
+            }
+            file {
+                id
+                name
+                type {
+                    id
+                    name
+                    class {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+    }
+}
+
+subscription updatedConversation($id: ID!) {
+    updatedConversation(id: $id) {
+        id
+        type {
+            id
+            name
+        }
+        withUser {
+            id
+            fullName
+            profileImage {
+                id
+            }
+        }
+        withGroup {
+            id
+            name
+        }
+        unreadMessages
+        lastMessage {
+            id
+            content
+            sentAt
+            receivedAt
+            seenAt
+            sender {
+                id
+                fullName
+                profileImage {
+                    id
+                }
+            }
+            file {
+                id
+                name
+                type {
+                    id
+                    name
+                    class {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+    }
+}
+
+subscription deletedConversation($id: ID!) {
+    deletedConversation(id: $id) {
+        id
+        type {
+            id
+            name
+        }
+        withUser {
+            id
+            fullName
+            profileImage {
+                id
+            }
+        }
+        withGroup {
+            id
+            name
+        }
+        unreadMessages
+        lastMessage {
+            id
+            content
+            sentAt
+            receivedAt
+            seenAt
+            sender {
+                id
+                fullName
+                profileImage {
+                    id
+                }
+            }
+            file {
+                id
+                name
+                type {
+                    id
+                    name
+                    class {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+    }
+}
+
+subscription incomingMessage {
+    incomingMessage {
+        id
+        content
+        sentAt
+        receivedAt
+        seenAt
+        sender {
+            id
+            fullName
+            profileImage {
+                id
+            }
+        }
+        file {
+            id
+            name
+            type {
+                id
+                name
+                class {
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
+
+subscription updatedMessage($id: ID!) {
+    updatedMessage(id: $id) {
+        receivedAt
+        seenAt
+    }
+}
+
+subscription deletedMessage($conversation: ID!) {
+    deletedMessage(conversation: $conversation) {
+        id
+    }
+}

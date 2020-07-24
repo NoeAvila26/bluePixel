@@ -1,0 +1,58 @@
+mutation nonce {
+    nonce {
+        id
+        data
+    }
+}
+
+mutation login($email: String!, $password: String!, $nonce:ID!) {
+    login(email: $email, password: $password, nonce: $nonce) {
+        id
+        user {
+            id
+            type {
+                id
+                name
+            }
+            firstName
+            lastName
+            fullName
+            email
+            phone
+            verified
+            profileImage {
+                id
+            }
+        }
+    }
+}
+
+mutation recover($email: String!, $salted: String!, $nonce: ID!) {
+    recover(email: $email, salted: $salted, nonce: $nonce)
+}
+
+mutation signUp($firstName: String!, $lastName: String!, $email: String!, $password: String!, $gre: String!, $profileImage: ID) {
+    signUp(firstName: $firstName, lastName: $lastName, email: $email, password: $password, gre: $gre, profileImage: $profileImage) {
+        status
+        session {
+            id
+            user {
+                id
+                type {
+                    id
+                    name
+                }
+                firstName
+                lastName
+                fullName
+                email
+                phone
+                verified
+                profileImage {
+                    id
+                    url
+                }
+            }
+        }
+    }
+}

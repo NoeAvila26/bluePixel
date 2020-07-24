@@ -1,0 +1,143 @@
+query getUsers($pag: Int = 0, $query: String = "") {
+    users(pag: $pag
+        filter: {
+            query: $query
+        }
+    ) {
+        hasMore
+        totalCount
+        pag
+        edges {
+            node {
+                id
+                fullName
+                stars
+                availableStars
+                ranking
+                rankingDirection
+                awaitingEvaluation
+                completedActivities
+                profileImage {
+                    id
+                }
+            }
+        }
+    }
+}
+
+query searchUsers($pag: Int = 0, $query: String = "") {
+    searchUsers(pag: $pag, query: $query) {
+        hasMore
+        pag
+        edges {
+            node {
+                id
+                fullName
+                profileImage {
+                    id
+                }
+            }
+        }
+    }
+}
+
+query getLeaderUsers($pag: Int = 0, $query: String = "") {
+    users(pag: $pag, ord: "awaitingEvaluation", asc: false,
+        filter: {
+            query: $query
+        }
+    ) {
+        hasMore
+        totalCount
+        pag
+        edges {
+            node {
+                id
+                fullName
+                firstName
+                stars
+                availableStars
+                ranking
+                rankingDirection
+                awaitingEvaluation
+                completedActivities
+                profileImage {
+                    id
+                }
+            }
+        }
+    }
+}
+
+query getPendingActivites($user: ID!) {
+    userActivities(filter: {
+        user: [$user]
+        awaitingEvaluation: true
+    }) {
+        totalCount
+        edges {
+            node {
+                id
+                finishedAt
+                createdAt
+                activity {
+                    id
+                    name
+                    image {
+                        id
+                    }
+                }
+            }
+        }
+    }
+}
+
+subscription updatedUser($id: ID!) {
+    updatedUser(id: $id) {
+        id
+        fullName
+        stars
+        availableStars
+        ranking
+        rankingDirection
+        awaitingEvaluation
+        completedActivities
+        profileImage {
+            id
+        }
+    }
+}
+
+subscription completedUserActivity($id:ID) {
+    completedUserActivity(id: $id) {
+        id
+        activity {
+            id
+            type {
+                id
+                name
+            }
+            name
+            instructions
+            index
+            timeRequired
+            isBonus
+            image {
+                id
+            }
+        }
+        status {
+            id
+            name
+        }
+        stars
+        awaitingEvaluation
+        onTime
+        allCorrect
+        selected
+        available
+        currentStep
+        shouldStartBefore
+        finishedAt
+    }
+}

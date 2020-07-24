@@ -1,0 +1,50 @@
+mutation deleteFile($id: ID!) {
+    deleteFile(id: $id)
+}
+
+mutation signUpload($name: String!, $path: String!) {
+    signUpload(name: $name, path: $path) {
+        file {
+            id
+            name
+            size
+            checksum
+            status {
+                id
+                name
+            }
+            type {
+                id
+                name
+                extension
+                class {
+                    id
+                    name
+                }
+            }
+        }
+        policy {
+            url
+            fields
+        }
+    }
+}
+
+mutation verifyUpload($id: ID!) {
+    verifyUpload(id: $id) {
+        id
+        size
+        name
+        type {
+            id
+            name
+            extension
+            class {
+                id
+                name
+            }
+        }
+        url
+        checksum
+    }
+}
