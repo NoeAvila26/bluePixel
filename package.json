@@ -40,7 +40,7 @@
     "graphql-tag": "^2.10.1",
     "isomorphic-unfetch": "^3.0.0",
     "mobile-detect": "^1.4.4",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.31",
     "next": "^9.4.1",
     "next-compose-plugins": "^2.2.0",
